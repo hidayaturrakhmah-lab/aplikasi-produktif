@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aku Produktif - Manajemen Waktu & Uang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/v3d5wQ7.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <style>
+        /* --- VARIABEL WARNA & TEMA --- */
+        :root {
+            --pastel-pink: #FFD1DC;
+            --pastel-yellow: #FFFACD;
+            --pastel-blue: #C9E4FF;
+            --dark-text: #444;
+            --light-text: #666;
+            --white: #FFFFFF;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --border-radius: 20px;
+        }
+
+        /* --- RESET & STYLE DASAR --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-yellow), var(--pastel-blue));
+            background-attachment: fixed;
+            color: var(--dark-text);
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        /* --- AUTH SCREEN (LOGIN/REGISTER) --- */
+        #auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .auth-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: var(--border-radius);
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .auth-toggle button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--light-text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: calc(var(--border-radius) - 5px);
+            transition: all 0.3s ease;
+        }
+
+        .auth-toggle button.active {
+            background: var(--white);
+            color: var(--dark-text);
+            box-shadow: var(--shadow);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .glass-card h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+        
+        .glass-card p {
+            color: var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--pastel-blue);
+            box-shadow: 0 0 0 3px rgba(201, 228, 255, 0.4);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--light-text);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--pastel-blue), var(--pastel-pink));
+            color: var(--white);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .error-message {
+            color: #DC143C;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- MAIN APP (HIDDEN BY DEFAULT) --- */
+        #main-app {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+        }
+        
+        /* --- HEADER & NAVIGASI (BARU) --- */
+        header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* BARU: Gaya untuk Profil Pengguna */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .profile-picture {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--white);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-picture:hover {
+            transform: scale(1.05);
+        }
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .profile-username {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        /* Menghapus gaya untuk tombol edit profil yang lama */
+
+        h1 {
+            color: var(--dark-text);
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav button, .btn-logout {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        nav button:hover, .btn-logout:hover {
+            background-color: var(--pastel-yellow);
+            color: var(--dark-text);
+            transform: scale(1.05);
+        }
+
+        nav button.active {
+            background-color: var(--pastel-blue);
+            color: var(--white);
+        }
+
+        /* --- KONTEN UTAMA --- */
+        main {
+            flex-grow: 1;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- DASHBOARD --- */
+        #dashboard .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        #dashboard .welcome-card {
+            grid-column: 1 / -1;
+        }
+
+        /* BARU: Gaya untuk Galeri Gambar */
+        .image-gallery-container {
+            margin-bottom: 20px;
+        }
+        .image-gallery {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            flex-basis: calc(33.333% - 10px); /* 3 kolom */
+            max-width: 200px;
+            aspect-ratio: 1 / 1;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .delete-image-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--dark-text);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        .delete-image-btn:hover {
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+        }
+        .add-image-btn {
+            background: var(--pastel-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .add-image-btn:hover {
+            background: #6A9BD1;
+        }
+        #image-input {
+            display: none;
+        }
+
+        #dashboard h2 {
+            font-size: 2rem;
+            text-align: center;
+            color: var(--dark-text);
+        }
+        #dashboard p {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 10px;
+        }
+        
+        .motto {
+            text-align: center;
+            font-style: italic;
+            color: var(--light-text);
+            font-size: 1rem;
+        }
+        
+        .clock-calendar-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #live-clock {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--dark-text);
+            margin-bottom: 20px;
+        }
+
+        #calendar-container {
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #calendar-container table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        #calendar-container th {
+            padding: 8px 5px;
+            font-weight: 600;
+            color: var(--light-text);
+            font-size: 0.8rem;
+        }
+
+        #calendar-container td {
+            padding: 8px 5px;
+            font-size: 0.9rem;
+            color: var(--dark-text);
+        }
+        
+        #calendar-container .today {
+            background-color: var(--pastel-blue);
+            color: var(--white);
+            font-weight: 700;
+            border-radius: 50%;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .summary-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .summary-card h3 { font-weight: 400; color: var(--dark-text); font-size: 0.9rem;}
+        .summary-card p { font-size: 1.5rem; font-weight: 700; color: var(--dark-text); }
+        .summary-card.work { background-color: var(--pastel-blue); }
+        .summary-card.study { background-color: var(--pastel-pink); }
+        .summary-card.read { background-color: var(--pastel-yellow); }
+        .summary-card.film { background-color: #E6E6FA; }
+
+
+        /* --- MANAJEMEN WAKTU --- */
+        .timer-display {
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--dark-text);
+        }
+
+        .activity-selector-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .activity-btn {
+            padding: 10px 20px;
+            border: 2px solid rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--light-text);
+        }
+
+        .activity-btn.active {
+            background-color: var(--pastel-blue);
+            color: var(--white);
+            border-color: var(--pastel-blue);
+        }
+        
+        .activity-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--white);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary { background-color: var(--pastel-blue); }
+        .btn-stop { background-color: #F08080; }
+        .btn-reset { background-color: #A9A9A9; }
+
+        .btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.8rem;
+        }
+        .progress-fill.work { background: linear-gradient(90deg, var(--pastel-blue), #6A9BD1); }
+        .progress-fill.study { background: linear-gradient(90deg, var(--pastel-pink), #FFB6C1); }
+        .progress-fill.read { background: linear-gradient(90deg, var(--pastel-yellow), #F0E68C); color: var(--dark-text); }
+        .progress-fill.film { background: linear-gradient(90deg, #E6E6FA, #DDA0DD); color: var(--dark-text); }
+
+        /* --- MANAJEMEN UANG --- */
+        .money-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .money-form input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+        .money-form button {
+            padding: 12px 20px;
+        }
+        .btn-income { background-color: #90EE90; }
+        .btn-expense { background-color: #FFB6C1; }
+
+        .summary-cards-finance {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .summary-card-finance {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .summary-card-finance.income { background-color: var(--pastel-yellow); }
+        .summary-card-finance.expense { background-color: var(--pastel-pink); }
+        .summary-card-finance.balance { background-color: var(--pastel-blue); }
+        .summary-card-finance h3 { font-weight: 400; color: var(--dark-text); }
+        .summary-card-finance p { font-size: 1.5rem; font-weight: 700; color: var(--dark-text); }
+
+        .transaction-list {
+            list-style: none;
+        }
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        .transaction-details .desc {
+            font-weight: 600;
+        }
+        .transaction-details .cat {
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+        .transaction-amount {
+            font-weight: 700;
+        }
+        .amount-income { color: #2E8B57; }
+        .amount-expense { color: #DC143C; }
+
+        /* --- MODAL FOTO PROFIL --- */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .profile-modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-modal-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .profile-modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--dark-text);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--light-text);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav button, .btn-logout {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            #dashboard .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            #dashboard h2 {
+                font-size: 1.5rem;
+            }
+            #live-clock {
+                font-size: 2rem;
+            }
+            .summary-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            .summary-card p {
+                font-size: 1.2rem;
+            }
+            .timer-display {
+                font-size: 2.5rem;
+            }
+            .activity-selector-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            .activity-btn {
+                width: 80%;
+                justify-content: center;
+            }
+            .timer-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn {
+                width: 100%;
+            }
+            .money-form {
+                flex-direction: column;
+            }
+            .money-form input {
+                margin-bottom: 10px;
+            }
+            .summary-cards-finance {
+                grid-template-columns: 1fr;
+            }
+            .gallery-item {
+                flex-basis: calc(50% - 10px); /* 2 kolom di mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AUTH SCREEN (LOGIN/REGISTER) -->
+    <div id="auth-container">
+        <div class="glass-card">
+            <div class="auth-toggle">
+                <button id="show-login" class="active">Masuk</button>
+                <button id="show-register">Daftar</button>
+            </div>
+
+            <div id="login-card">
+                <h1>🌸 Halo! 🌸</h1>
+                <p>Selamat datang kembali.</p>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="text" id="login-username" placeholder="Nama Pengguna" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" placeholder="Kata Sandi" required>
+                        <span class="password-toggle" data-target="login-password">👁️</span>
+                    </div>
+                    <button type="submit" class="btn-primary">Masuk</button>
+                    <p class="error-message" id="login-error">Nama pengguna atau kata sandi salah.</p>
+                </form>
+            </div>
+
+            <div id="register-card" style="display: none;">
+                <h1>✨ Bergabung! ✨</h1>
+                <p>Mari mulai perjalanan produktifmu.</p>
+                <form id="register-form">
+                    <div class="input-group">
+                        <input type="text" id="register-username" placeholder="Buat Nama Pengguna" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="register-password" placeholder="Buat Kata Sandi" required>
+                        <span class="password-toggle" data-target="register-password">👁️</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="register-confirm-password" placeholder="Konfirmasi Kata Sandi" required>
+                        <span class="password-toggle" data-target="register-confirm-password">👁️</span>
+                    </div>
+                    <button type="submit" class="btn-primary">Daftar</button>
+                    <p class="error-message" id="register-error">Kata sandi tidak cocok atau pengguna sudah ada.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION (HIDDEN UNTIL LOGIN) -->
+    <div id="main-app">
+        <header>
+            <div class="header-content">
+                <div class="profile-section">
+                    <img id="profile-picture" class="profile-picture" src="https://i.imgur.com/gL1hLhA.png" alt="Profile Picture">
+                    <div class="profile-info">
+                        <h1>🌸 Ayo Produktif! 🌸</h1>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <nav>
+                        <ul>
+                            <li><button class="nav-link active" data-target="dashboard">Beranda</button></li>
+                            <li><button class="nav-link" data-target="time-management">⏰ Waktu</button></li>
+                            <li><button class="nav-link" data-target="money-management">💰 Uang</button></li>
+                        </ul>
+                    </nav>
+                    <button class="btn-logout">Keluar</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MODAL FOTO PROFIL -->
+        <div id="profile-modal" class="profile-modal">
+            <div class="profile-modal-content">
+                <span class="close-modal">&times;</span>
+                <img id="profile-modal-image" class="profile-modal-image" src="" alt="Profile Picture">
+                <div class="profile-modal-actions">
+                    <button id="change-profile-btn" class="btn btn-primary">Ganti Foto Profil</button>
+                </div>
+            </div>
+        </div>
+
+        <main class="container">
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard" class="content-section active">
+                <div class="dashboard-grid">
+                    <div class="card welcome-card">
+                                <h1 style="text-align: center; font-size: 1.3rem; font-weight: 700; color: var(--dark-text)">Gallery Gambar📸</h1><br>
+                        <!-- BARU: Kontainer untuk Galeri Gambar -->
+                        <div class="image-gallery-container">
+                            <div id="image-gallery" class="image-gallery">
+                                <!-- Gambar akan dimuat di sini oleh JavaScript -->
+                            </div>
+                            <br><button class="add-image-btn" id="add-image-btn">+ Tambah Gambar</button>
+                            <input type="file" id="image-input" accept="image/*">
+                        </div>
+                        
+                        <h2 id="welcome-message">Halo, ! ✨</h2>
+                        <p>Waktunya untuk membuat hari ini lebih bermakna. Yuk, capai targetmu satu per satu!</p>
+                        <p class="motto">"Progres, bukan kesempurnaan, adalah kunci sukses."</p>
+                    </div>
+                    <div class="card clock-calendar-card">
+                        <div id="live-clock">00:00:00</div>
+                        <div id="calendar-container"></div>
+                    </div>
+                    <div class="card">
+                        <div class="summary-cards">
+                            <div class="summary-card work">
+                                <h3>💼 Kerja</h3>
+                                <p>Maks. 8 Jam</p>
+                            </div>
+                            <div class="summary-card study">
+                                <h3>📚 Belajar</h3>
+                                <p>Min. 30 Menit</p>
+                            </div>
+                            <div class="summary-card read">
+                                <h3>📖 Membaca</h3>
+                                <p>Target Bebas</p>
+                            </div>
+                            <div class="summary-card film">
+                                <h3>🎬 Film</h3>
+                                <p>Target Bebas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TIME MANAGEMENT SECTION -->
+            <section id="time-management" class="content-section">
+                <div class="card">
+                    <h2>⏰ Manajemen Waktu</h2>
+                    <div class="activity-selector-group">
+                        <button class="activity-btn active" data-activity="work">💼 Kerja</button>
+                        <button class="activity-btn" data-activity="study">📚 Belajar</button>
+                        <button class="activity-btn" data-activity="read">📖 Membaca</button>
+                        <button class="activity-btn" data-activity="film">🎬 Film</button>
+                    </div>
+                    <div class="timer-display" id="timer-display">00:00:00</div>
+                    <div class="timer-controls">
+                        <button class="btn btn-primary" id="start-pause-btn">Mulai</button>
+                        <button class="btn btn-stop" id="stop-timer-btn" disabled>Selesai</button>
+                        <button class="btn btn-reset" id="reset-day-btn">Reset Hari</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Progress Harian</h2>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>💼 Waktu Kerja (Maks: 8 Jam)</span>
+                            <span id="work-time-text">0 Jam 0 Menit</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill work" id="work-progress"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>📚 Waktu Belajar (Min: 30 Menit)</span>
+                            <span id="study-time-text">0 Menit</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill study" id="study-progress"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>📖 Waktu Membaca</span>
+                            <span id="read-time-text">0 Menit</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill read" id="read-progress"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>🎬 Waktu Nonton Film</span>
+                            <span id="film-time-text">0 Menit</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill film" id="film-progress"></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MONEY MANAGEMENT SECTION -->
+            <section id="money-management" class="content-section">
+                <div class="card">
+                    <h2>💰 Tambah Transaksi</h2>
+                    <form class="money-form" id="money-form">
+                        <input type="number" id="amount" placeholder="Jumlah (Rp)" required>
+                        <input type="text" id="description" placeholder="Keterangan (e.g., Gaji, Makan)" required>
+                        <button type="submit" class="btn btn-income" id="add-income">+ Pemasukan</button>
+                        <button type="button" class="btn btn-expense" id="add-expense">- Pengeluaran</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2>Ringkasan Keuangan</h2>
+                    <div class="summary-cards-finance">
+                        <div class="summary-card-finance income">
+                            <h3>Total Pemasukan</h3>
+                            <p id="total-income">Rp 0</p>
+                        </div>
+                        <div class="summary-card-finance expense">
+                            <h3>Total Pengeluaran</h3>
+                            <p id="total-expense">Rp 0</p>
+                        </div>
+                        <div class="summary-card-finance balance">
+                            <h3>Sisa Saldo</h3>
+                            <p id="total-balance">Rp 0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>Riwayat Transaksi</h2>
+                    <ul class="transaction-list" id="transaction-list">
+                        <li class="transaction-item">Belum ada transaksi.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- ELEMEN DOM AUTH ---
+            const authContainer = document.getElementById('auth-container');
+            const mainApp = document.getElementById('main-app');
+            const showLoginBtn = document.getElementById('show-login');
+            const showRegisterBtn = document.getElementById('show-register');
+            const loginCard = document.getElementById('login-card');
+            const registerCard = document.getElementById('register-card');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginError = document.getElementById('login-error');
+            const registerError = document.getElementById('register-error');
+            const passwordToggles = document.querySelectorAll('.password-toggle');
+
+            // --- ELEMEN DOM MAIN APP ---
+            const welcomeMessage = document.getElementById('welcome-message');
+            const logoutBtn = document.querySelector('.btn-logout');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            const timerDisplay = document.getElementById('timer-display');
+            const activityBtns = document.querySelectorAll('.activity-btn');
+            const startPauseBtn = document.getElementById('start-pause-btn');
+            const stopTimerBtn = document.getElementById('stop-timer-btn');
+            const resetDayBtn = document.getElementById('reset-day-btn');
+            const progressBars = { work: 'work-progress', study: 'study-progress', read: 'read-progress', film: 'film-progress' };
+            const timeTexts = { work: 'work-time-text', study: 'study-time-text', read: 'read-time-text', film: 'film-time-text' };
+            const moneyForm = document.getElementById('money-form');
+            const amountInput = document.getElementById('amount');
+            const descriptionInput = document.getElementById('description');
+            const addIncomeBtn = document.getElementById('add-income');
+            const addExpenseBtn = document.getElementById('add-expense');
+            const totalIncomeEl = document.getElementById('total-income');
+            const totalExpenseEl = document.getElementById('total-expense');
+            const totalBalanceEl = document.getElementById('total-balance');
+            const transactionListEl = document.getElementById('transaction-list');
+
+            // --- ELEMEN DOM UNTUK PROFIL ---
+            const profilePicture = document.getElementById('profile-picture');
+            const profileInput = document.createElement('input');
+            profileInput.type = 'file';
+            profileInput.id = 'profile-input';
+            profileInput.style.display = 'none';
+            document.body.appendChild(profileInput);
+            
+            // --- ELEMEN DOM UNTUK MODAL PROFIL ---
+            const profileModal = document.getElementById('profile-modal');
+            const profileModalImage = document.getElementById('profile-modal-image');
+            const changeProfileBtn = document.getElementById('change-profile-btn');
+            const closeModal = document.querySelector('.close-modal');
+
+            // --- STATE & USER MANAGEMENT ---
+            let currentUser = null;
+            let firebaseDB = null;
+
+            const activities = ['work', 'study', 'read', 'film'];
+            let totalSeconds = {};
+            let lastResetDate = null;
+            let transactions = [];
+            // Array untuk menyimpan dataURL gambar
+            let dashboardImages = [];
+            // State untuk foto profil
+            let profileImageUrl = 'https://i.imgur.com/gL1hLhA.png'; // Default placeholder
+
+            // --- PENTING: GANTI DENGAN DATA FIREBASE KAMU ---
+            const firebaseConfig = {
+              apiKey: "AIzaSyCVGICoAkqzVxto9n9KLzIzLQk51M3WigM",
+              authDomain: "akuproduktifapp-add18.firebaseapp.com",
+              databaseURL: "https://akuproduktifapp-add18-default-rtdb.asia-southeast1.firebasedatabase.app",
+              projectId: "akuproduktifapp-add18",
+              storageBucket: "akuproduktifapp-add18.firebasestorage.app",
+              messagingSenderId: "288070789908",
+              appId: "1:288070789908:web:148ce057be72655151b001",
+              measurementId: "G-S99FVJRXBZ"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            firebaseDB = firebase.database();
+
+            // --- FUNGSI AUTH UI ---
+            function showAuthScreen() {
+                authContainer.style.display = 'flex';
+                mainApp.style.display = 'none';
+            }
+
+            function showMainApp() {
+                authContainer.style.display = 'none';
+                mainApp.style.display = 'block';
+            }
+
+            function toggleAuthScreen(type) {
+                if (type === 'login') {
+                    loginCard.style.display = 'block';
+                    registerCard.style.display = 'none';
+                    showLoginBtn.classList.add('active');
+                    showRegisterBtn.classList.remove('active');
+                } else {
+                    registerCard.style.display = 'block';
+                    loginCard.style.display = 'none';
+                    showRegisterBtn.classList.add('active');
+                    showLoginBtn.classList.remove('active');
+                }
+                loginError.style.display = 'none';
+                registerError.style.display = 'none';
+            }
+
+            // --- FUNGSI AUTH LOGIC ---
+            function handleLogin(username, password) {
+                firebaseDB.ref('users/' + username).once('value')
+                    .then((snapshot) => {
+                        const userData = snapshot.val();
+                        if (userData && userData.password === password) {
+                            currentUser = username;
+                            localStorage.setItem('loggedInUser', currentUser);
+                            showMainApp();
+                            initializeUserData();
+                        } else {
+                            loginError.style.display = 'block';
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Login failed:", error);
+                        loginError.style.display = 'block';
+                    });
+            }
+
+            function handleRegister(username, password, confirmPassword) {
+                if (password !== confirmPassword) {
+                    registerError.textContent = 'Kata sandi tidak cocok.';
+                    registerError.style.display = 'block';
+                    return;
+                }
+                
+                firebaseDB.ref('users/' + username).once('value')
+                    .then((snapshot) => {
+                        if (snapshot.exists()) {
+                            registerError.textContent = 'Nama pengguna sudah ada.';
+                            registerError.style.display = 'block';
+                        } else {
+                            firebaseDB.ref('users/' + username).set({
+                                password: password
+                            }).then(() => {
+                                registerForm.reset();
+                                toggleAuthScreen('login');
+                                document.getElementById('login-username').value = username;
+                                registerError.style.display = 'none';
+                            }).catch((error) => {
+                                console.error("Registration failed:", error);
+                                registerError.textContent = 'Terjadi kesalahan, coba lagi.';
+                                registerError.style.display = 'block';
+                            });
+                        }
+                    });
+            }
+            
+            function logout() {
+                currentUser = null;
+                localStorage.removeItem('loggedInUser');
+                showAuthScreen();
+                loginForm.reset();
+                registerForm.reset();
+            }
+
+            // --- EVENT LISTENERS AUTH ---
+            showLoginBtn.addEventListener('click', () => toggleAuthScreen('login'));
+            showRegisterBtn.addEventListener('click', () => toggleAuthScreen('register'));
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('login-username').value.trim();
+                const password = document.getElementById('login-password').value;
+                handleLogin(username, password);
+            });
+
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('register-username').value.trim();
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm-password').value;
+                handleRegister(username, password, confirmPassword);
+            });
+            
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const targetId = toggle.dataset.target;
+                    const input = document.getElementById(targetId);
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        toggle.textContent = '🙈';
+                    } else {
+                        input.type = 'password';
+                        toggle.textContent = '👁️';
+                    }
+                });
+            });
+
+            logoutBtn.addEventListener('click', logout);
+
+            // --- FUNGSI MAIN APP ---
+            function initializeUserData() {
+                welcomeMessage.textContent = `Halo, ${currentUser}! ✨`;
+                const userRef = firebaseDB.ref('userData/' + currentUser);
+                
+                userRef.on('value', (snapshot) => {
+                    const data = snapshot.val() || {};
+                    activities.forEach(act => {
+                        totalSeconds[act] = data.totalSeconds?.[act] || 0;
+                    });
+                    lastResetDate = data.lastResetDate;
+                    transactions = data.transactions || [];
+                    // Ambil data gambar dari Firebase
+                    dashboardImages = data.dashboardImages || [];
+                    // Ambil data foto profil dari Firebase
+                    profileImageUrl = data.profileImageUrl || 'https://i.imgur.com/gL1hLhA.png'; // Default placeholder
+
+                    checkAndResetDaily();
+                    updateTimeDisplay();
+                    updateProgressBar();
+                    updateMoneySummary();
+                    displayTransactions();
+                    // Render galeri gambar
+                    renderGallery();
+                    // Render foto profil
+                    renderProfilePicture();
+                });
+            }
+            
+            // --- FUNGSI UNTUK GALERI GAMBAR ---
+            function renderGallery() {
+                const imageGallery = document.getElementById('image-gallery');
+                imageGallery.innerHTML = ''; // Kosongkan dulu
+                if (dashboardImages.length === 0) {
+                    imageGallery.innerHTML = '<p style="text-align:center; color: var(--light-text);">Belum ada gambar. Klik "Tambah Gambar" untuk memulai.</p>';
+                    return;
+                }
+                dashboardImages.forEach(image => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.dataset.id = image.id;
+                    
+                    const img = document.createElement('img');
+                    img.src = image.dataURL;
+                    img.alt = 'Dashboard Image';
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-image-btn';
+                    deleteBtn.innerHTML = '&times;';
+                    deleteBtn.onclick = () => deleteImage(image.id);
+                    
+                    item.appendChild(img);
+                    item.appendChild(deleteBtn);
+                    imageGallery.appendChild(item);
+                });
+            }
+
+            function addImage(e) {
+                const file = e.target.files[0];
+                if (file && dashboardImages.length < 3) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const newImage = {
+                            id: Date.now(), // ID unik sederhana
+                            dataURL: event.target.result
+                        };
+                        dashboardImages.push(newImage);
+                        saveUserData();
+                        renderGallery();
+                    };
+                    reader.readAsDataURL(file);
+                } else if (dashboardImages.length >= 3) {
+                    alert('Maksimal 3 gambar yang bisa ditambahkan.');
+                }
+            }
+
+            function deleteImage(id) {
+                if (confirm('Apakah kamu yakin ingin menghapus gambar ini?')) {
+                    dashboardImages = dashboardImages.filter(img => img.id !== id);
+                    saveUserData();
+                    renderGallery();
+                }
+            }
+            
+            // --- FUNGSI UNTUK FOTO PROFIL ---
+            function renderProfilePicture() {
+                profilePicture.src = profileImageUrl;
+            }
+
+            function openProfileModal() {
+                profileModalImage.src = profileImageUrl;
+                profileModal.style.display = 'flex';
+            }
+
+            function closeProfileModal() {
+                profileModal.style.display = 'none';
+            }
+
+            function changeProfilePicture() {
+                profileInput.click();
+                closeProfileModal();
+            }
+
+            function handleProfilePictureChange(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        profileImageUrl = event.target.result;
+                        saveUserData();
+                        renderProfilePicture();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            // --- FUNGSI DASHBOARD ---
+            function updateClock() {
+                const now = new Date();
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const s = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('live-clock').textContent = `${h}:${m}:${s}`;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            function generateCalendar() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth();
+                const today = now.getDate();
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                let html = `<table><caption>${monthNames[month]} ${year}</caption><thead><tr>`;
+                const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                dayNames.forEach(day => html += `<th>${day}</th>`);
+                html += `</tr></thead><tbody><tr>`;
+                let date = 1;
+                for (let i = 0; i < firstDay; i++) html += `<td></td>`;
+                for (let i = firstDay; i < 7; i++) {
+                    html += `<td ${date === today ? 'class="today"' : ''}>${date}</td>`; date++;
+                }
+                html += `</tr>`;
+                while (date <= daysInMonth) {
+                    html += `<tr>`;
+                    for (let i = 0; i < 7; i++) {
+                        if (date > daysInMonth) { html += `<td></td>`; }
+                        else { html += `<td ${date === today ? 'class="today"' : ''}>${date}</td>`; date++; }
+                    }
+                    html += `</tr>`;
+                }
+                html += `</tbody></table>`;
+                document.getElementById('calendar-container').innerHTML = html;
+            }
+            generateCalendar();
+
+            // --- FUNGSI NAVIGASI ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const targetId = link.dataset.target;
+                    sections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(targetId).classList.add('active');
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // --- FUNGSI MANAJEMEN WAKTU ---
+            let timerInterval = null;
+            let seconds = 0;
+            let isTimerRunning = false;
+            let isPaused = false;
+            let currentActivity = 'work';
+
+            function checkAndResetDaily() {
+                const today = new Date().toDateString();
+                if (lastResetDate !== today) {
+                    activities.forEach(act => {
+                        totalSeconds[act] = 0;
+                    });
+                    lastResetDate = today;
+                    saveUserData();
+                }
+            }
+            
+            function saveUserData() {
+                const dataToSave = {
+                    totalSeconds: totalSeconds,
+                    lastResetDate: lastResetDate,
+                    transactions: transactions,
+                    // Simpan array gambar ke Firebase
+                    dashboardImages: dashboardImages,
+                    // Simpan URL foto profil ke Firebase
+                    profileImageUrl: profileImageUrl
+                };
+                firebaseDB.ref('userData/' + currentUser).set(dataToSave);
+            }
+
+            activityBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (isTimerRunning || isPaused) {
+                        stopTimer();
+                    }
+                    activityBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentActivity = btn.dataset.activity;
+                });
+            });
+
+            function handleStartPause() {
+                if (!isTimerRunning && !isPaused) startTimer();
+                else if (isTimerRunning && !isPaused) pauseTimer();
+                else if (!isTimerRunning && isPaused) resumeTimer();
+            }
+
+            function startTimer() {
+                isTimerRunning = true; isPaused = false;
+                activityBtns.forEach(b => b.disabled = true);
+                startPauseBtn.textContent = 'Jeda'; stopTimerBtn.disabled = false;
+                timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
+            }
+            function pauseTimer() {
+                isTimerRunning = false; isPaused = true;
+                clearInterval(timerInterval); startPauseBtn.textContent = 'Lanjutkan';
+            }
+            function resumeTimer() {
+                isTimerRunning = true; isPaused = false;
+                startPauseBtn.textContent = 'Jeda';
+                timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
+            }
+            function stopTimer() {
+                if (!isTimerRunning && !isPaused) return;
+                clearInterval(timerInterval);
+                totalSeconds[currentActivity] += seconds;
+                saveUserData();
+                seconds = 0; isTimerRunning = false; isPaused = false;
+                activityBtns.forEach(b => b.disabled = false);
+                startPauseBtn.textContent = 'Mulai'; stopTimerBtn.disabled = true;
+                updateTimerDisplay(); updateTimeDisplay(); updateProgressBar();
+            }
+            function updateTimerDisplay() {
+                const hrs = Math.floor(seconds / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                timerDisplay.textContent = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
+            function updateTimeDisplay() {
+                activities.forEach(act => {
+                    const totalSecs = totalSeconds[act];
+                    const hrs = Math.floor(totalSecs / 3600);
+                    const mins = Math.floor((totalSecs % 3600) / 60);
+                    const textEl = document.getElementById(timeTexts[act]);
+                    if (act === 'work') textEl.textContent = `${hrs} Jam ${mins} Menit`;
+                    else textEl.textContent = `${hrs * 60 + mins} Menit`;
+                });
+            }
+            function updateProgressBar() {
+                const workPerc = Math.min((totalSeconds['work'] / 28800) * 100, 100);
+                document.getElementById(progressBars['work']).style.width = `${workPerc}%`;
+                document.getElementById(progressBars['work']).textContent = `${workPerc.toFixed(1)}%`;
+                const studyPerc = Math.min((totalSeconds['study'] / 1800) * 100, 100);
+                document.getElementById(progressBars['study']).style.width = `${studyPerc}%`;
+                document.getElementById(progressBars['study']).textContent = `${studyPerc.toFixed(1)}%`;
+                const readPerc = Math.min((totalSeconds['read'] / 7200) * 100, 100);
+                document.getElementById(progressBars['read']).style.width = `${readPerc}%`;
+                document.getElementById(progressBars['read']).textContent = `${readPerc.toFixed(1)}%`;
+                const filmPerc = Math.min((totalSeconds['film'] / 10800) * 100, 100);
+                document.getElementById(progressBars['film']).style.width = `${filmPerc}%`;
+                document.getElementById(progressBars['film']).textContent = `${filmPerc.toFixed(1)}%`;
+            }
+            function resetDay() {
+                if (confirm("Apakah kamu yakin ingin mereset progress hari ini?")) {
+                    activities.forEach(act => {
+                        totalSeconds[act] = 0;
+                    });
+                    lastResetDate = new Date().toDateString();
+                    saveUserData();
+                    updateTimeDisplay(); updateProgressBar();
+                }
+            }
+            startPauseBtn.addEventListener('click', handleStartPause);
+            stopTimerBtn.addEventListener('click', stopTimer);
+            resetDayBtn.addEventListener('click', resetDay);
+
+            // --- FUNGSI MANAJEMEN UANG ---
+            function formatRupiah(amount) { return 'Rp ' + amount.toLocaleString('id-ID'); }
+            function addTransaction(type) {
+                const amount = parseFloat(amountInput.value);
+                const description = descriptionInput.value;
+                if (!amount || !description) { alert('Jumlah dan keterangan harus diisi!'); return; }
+                const transaction = { id: Date.now(), type, amount, description };
+                transactions.unshift(transaction);
+                saveUserData();
+                moneyForm.reset(); updateMoneySummary(); displayTransactions();
+            }
+            function updateMoneySummary() {
+                const income = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+                const expense = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+                const balance = income - expense;
+                totalIncomeEl.textContent = formatRupiah(income);
+                totalExpenseEl.textContent = formatRupiah(expense);
+                totalBalanceEl.textContent = formatRupiah(balance);
+            }
+            function displayTransactions() {
+                if (transactions.length === 0) { transactionListEl.innerHTML = '<li class="transaction-item">Belum ada transaksi.</li>'; return; }
+                transactionListEl.innerHTML = '';
+                transactions.forEach(t => {
+                    const li = document.createElement('li'); li.className = 'transaction-item';
+                    const amountClass = t.type === 'income' ? 'amount-income' : 'amount-expense';
+                    const amountSign = t.type === 'income' ? '+' : '-';
+                    li.innerHTML = `
+                        <div class="transaction-details">
+                            <div class="desc">${t.description}</div>
+                            <div class="cat">${t.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}</div>
+                        </div>
+                        <div class="transaction-amount ${amountClass}">${amountSign} ${formatRupiah(t.amount)}</div>
+                    `;
+                    transactionListEl.appendChild(li);
+                });
+            }
+            moneyForm.addEventListener('submit', (e) => { e.preventDefault(); addTransaction('income'); });
+            addExpenseBtn.addEventListener('click', () => { addTransaction('expense'); });
+
+            // --- EVENT LISTENER UNTUK PROFIL ---
+            profilePicture.addEventListener('click', openProfileModal);
+            changeProfileBtn.addEventListener('click', changeProfilePicture);
+            closeModal.addEventListener('click', closeProfileModal);
+            profileInput.addEventListener('change', handleProfilePictureChange);
+            
+            // Menutup modal jika pengguna mengklik di luar konten modal
+            window.addEventListener('click', (event) => {
+                if (event.target === profileModal) {
+                    closeProfileModal();
+                }
+            });
+
+            // --- EVENT LISTENER UNTUK GAMBAR DASHBOARD ---
+            document.getElementById('add-image-btn').addEventListener('click', () => {
+                document.getElementById('image-input').click();
+            });
+            
+            document.getElementById('image-input').addEventListener('change', addImage);
+
+            // --- INISIALISASI APLIKASI ---
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                currentUser = loggedInUser;
+                showMainApp();
+                initializeUserData();
+            } else {
+                showAuthScreen();
+            }
+        });
+    </script>
+</body>
+</html>
