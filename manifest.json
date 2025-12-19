@@ -8,12 +8,12 @@
   "description": "Aplikasi manajemen waktu dan uang pribadi.",
   "icons": [
     {
-      "src": "https://i.imgur.com/v3d5wQ7.png",
+      "src": "/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://i.imgur.com/g2r4mS5.png",
+      "src": "/icons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
