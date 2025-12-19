@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aku Produktif - Manajemen Waktu & Uang</title>
+    <title>Be Productive - Time & Money Management</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="manifest" href="manifest.json">
@@ -13,7 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <style>
-        /* --- VARIABEL WARNA & TEMA (MODERN) --- */
+        /* --- COLOR & THEME VARIABLES (MODERN) --- */
         :root {
             /* Light Mode Colors */
             --bg-primary: linear-gradient(135deg, #FFD1DC, #FFFACD, #C9E4FF);
@@ -56,7 +56,7 @@
             --color-purple: #b89fd4;
         }
 
-        /* --- RESET & STYLE DASAR --- */
+        /* --- RESET & BASIC STYLES --- */
         * {
             margin: 0;
             padding: 0;
@@ -207,7 +207,7 @@
             min-height: 100vh;
         }
         
-        /* --- HEADER & NAVIGASI (MODERN) --- */
+        /* --- HEADER & NAVIGATION (MODERN) --- */
         header {
             background: var(--bg-card);
             backdrop-filter: blur(15px);
@@ -351,7 +351,7 @@
             content: "🌙";
         }
 
-        /* --- KONTEN UTAMA --- */
+        /* --- MAIN CONTENT --- */
         main {
             flex-grow: 1;
         }
@@ -406,7 +406,7 @@
             grid-column: 1 / -1;
         }
 
-        /* BARU: Gaya untuk Galeri Gambar */
+        /* NEW: Image Gallery Styles */
         .image-gallery-container {
             margin-bottom: 20px;
         }
@@ -572,7 +572,7 @@
         .summary-card.film { background-color: var(--color-purple); }
         .summary-card.workout { background-color: var(--color-green); }
         
-        /* --- CARD ULANG TAHUN (SUPER AESTHETIC) --- */
+        /* --- BIRTHDAY CARD (SUPER AESTHETIC) --- */
         .birthday-card {
             text-align: center;
             padding: 0;
@@ -754,7 +754,7 @@
         .decoration-3 { bottom: 20%; left: 20%; animation-delay: 2s; }
         .decoration-4 { bottom: 15%; right: 10%; animation-delay: 3s; }
 
-        /* --- MANAJEMEN WAKTU --- */
+        /* --- TIME MANAGEMENT --- */
         .timer-display {
             font-size: 3rem;
             font-weight: 300;
@@ -863,7 +863,7 @@
         .progress-fill.film { background: linear-gradient(90deg, var(--color-purple), #DDA0DD); color: var(--text-primary); }
         .progress-fill.workout { background: linear-gradient(90deg, var(--color-green), #90EE90); }
         
-        /* --- RIWAYAT MANAJEMEN WAKTU (AESTHETIC) --- */
+        /* --- TIME MANAGEMENT HISTORY (AESTHETIC) --- */
         .history-section {
             margin-top: 30px;
         }
@@ -911,7 +911,7 @@
             }
         }
         
-        /* --- TABEL DATA HARI INI --- */
+        /* --- TODAY'S DATA TABLE --- */
         .today-data-card {
             background: var(--bg-card);
             backdrop-filter: blur(10px);
@@ -1017,7 +1017,7 @@
         .mini-progress-fill.film { background: var(--color-purple); }
         .mini-progress-fill.workout { background: var(--color-green); }
         
-        /* --- GRAFIK PRODUKTIVITAS --- */
+        /* --- PRODUCTIVITY CHART --- */
         .chart-card {
             background: var(--bg-card);
             backdrop-filter: blur(10px);
@@ -1069,11 +1069,11 @@
         
         .legend-color {
             width:16px;
-            height: 16px;
-            border-radius: 4px;
+            height:16px;
+            border-radius:4px;
         }
         
-        /* --- TABEL RIWAYAT HARIAN --- */
+        /* --- DAILY HISTORY TABLE --- */
         .history-table-card {
             background: var(--bg-card);
             backdrop-filter: blur(10px);
@@ -1172,7 +1172,7 @@
             opacity: 0.5;
         }
 
-        /* --- MANAJEMEN UANG --- */
+        /* --- MONEY MANAGEMENT --- */
         .money-form {
             display: flex;
             gap: 10px;
@@ -1261,7 +1261,7 @@
         .amount-income { color: #2E8B57; }
         .amount-expense { color: #DC143C; }
 
-        /* --- MODAL FOTO PROFIL --- */
+        /* --- PROFILE MODAL --- */
         .profile-modal {
             display: none;
             position: fixed;
@@ -1315,7 +1315,7 @@
             color: var(--text-muted);
         }
         
-        /* --- MODAL ULANG TAHUN --- */
+        /* --- BIRTHDAY MODAL --- */
         .birthday-modal {
             display: none;
             position: fixed;
@@ -1369,7 +1369,7 @@
             justify-content: center;
         }
         
-        /* --- FIX: Helper class untuk menyembunyikan elemen --- */
+        /* --- FIX: Helper class to hide elements --- */
         .hidden {
             display: none !important;
             visibility: hidden !important;
@@ -1454,7 +1454,7 @@
                 font-size: 2.5rem;
             }
             
-            /* Responsive untuk tabel */
+            /* Responsive for tables */
             .today-table, .history-table {
                 font-size: 0.85rem;
             }
@@ -1482,7 +1482,7 @@
                 gap: 10px;
             }
             
-            /* Responsive untuk transaksi */
+            /* Responsive for transactions */
             .transaction-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -1501,43 +1501,43 @@
     <div id="auth-container">
         <div class="glass-card">
             <div class="auth-toggle">
-                <button id="show-login" class="active">Masuk</button>
-                <button id="show-register">Daftar</button>
+                <button id="show-login" class="active">Login</button>
+                <button id="show-register">Register</button>
             </div>
 
             <div id="login-card">
-                <h1>🌸 Halo! 🌸</h1>
-                <p>Selamat datang kembali.</p>
+                <h1>🌸 Hello! 🌸</h1>
+                <p>Welcome back.</p>
                 <form id="login-form">
                     <div class="input-group">
-                        <input type="text" id="login-username" placeholder="Nama Pengguna" required>
+                        <input type="text" id="login-username" placeholder="Username" required>
                     </div>
                     <div class="input-group">
-                        <input type="password" id="login-password" placeholder="Kata Sandi" required>
+                        <input type="password" id="login-password" placeholder="Password" required>
                         <span class="password-toggle" data-target="login-password">👁️</span>
                     </div>
-                    <button type="submit" class="btn-primary">Masuk</button>
-                    <p class="error-message" id="login-error">Nama pengguna atau kata sandi salah.</p>
+                    <button type="submit" class="btn-primary">Login</button>
+                    <p class="error-message" id="login-error">Incorrect username or password.</p>
                 </form>
             </div>
 
             <div id="register-card" style="display: none;">
-                <h1>✨ Bergabung! ✨</h1>
-                <p>Mari mulai perjalanan produktifmu.</p>
+                <h1>✨ Join! ✨</h1>
+                <p>Let's start your productive journey.</p>
                 <form id="register-form">
                     <div class="input-group">
-                        <input type="text" id="register-username" placeholder="Buat Nama Pengguna" required>
+                        <input type="text" id="register-username" placeholder="Create Username" required>
                     </div>
                     <div class="input-group">
-                        <input type="password" id="register-password" placeholder="Buat Kata Sandi" required>
+                        <input type="password" id="register-password" placeholder="Create Password" required>
                         <span class="password-toggle" data-target="register-password">👁️</span>
                     </div>
                     <div class="input-group">
-                        <input type="password" id="register-confirm-password" placeholder="Konfirmasi Kata Sandi" required>
+                        <input type="password" id="register-confirm-password" placeholder="Confirm Password" required>
                         <span class="password-toggle" data-target="register-confirm-password">👁️</span>
                     </div>
-                    <button type="submit" class="btn-primary">Daftar</button>
-                    <p class="error-message" id="register-error">Kata sandi tidak cocok atau pengguna sudah ada.</p>
+                    <button type="submit" class="btn-primary">Register</button>
+                    <p class="error-message" id="register-error">Incorrect password or user already exists.</p>
                 </form>
             </div>
         </div>
@@ -1550,15 +1550,15 @@
                 <div class="profile-section">
                     <img id="profile-picture" class="profile-picture" src="https://i.imgur.com/gL1hLhA.png" alt="Profile Picture">
                     <div class="profile-info">
-                        <h1>🌸 Ayo Produktif! 🌸</h1>
+                        <h1>🌸 Be Productive! 🌸</h1>
                     </div>
                 </div>
                 <div class="header-actions">
                     <nav>
                         <ul>
-                            <li><button class="nav-link active" data-target="dashboard">Beranda</button></li>
-                            <li><button class="nav-link" data-target="time-management">⏰ Waktu</button></li>
-                            <li><button class="nav-link" data-target="money-management">💰 Uang</button></li>
+                            <li><button class="nav-link active" data-target="dashboard">Home</button></li>
+                            <li><button class="nav-link" data-target="time-management">⏰ Time</button></li>
+                            <li><button class="nav-link" data-target="money-management">💰 Money</button></li>
                         </ul>
                     </nav>
                     <!-- MODERN: Theme Toggle Switch -->
@@ -1568,32 +1568,32 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <button class="btn-logout">Keluar</button>
+                    <button class="btn-logout">Logout</button>
                 </div>
             </div>
         </header>
 
-        <!-- MODAL FOTO PROFIL -->
+        <!-- PROFILE PICTURE MODAL -->
         <div id="profile-modal" class="profile-modal">
             <div class="profile-modal-content">
                 <span class="close-modal">&times;</span>
                 <img id="profile-modal-image" class="profile-modal-image" src="" alt="Profile Picture">
                 <div class="profile-modal-actions">
-                    <button id="change-profile-btn" class="btn btn-primary">Ganti Foto Profil</button>
+                    <button id="change-profile-btn" class="btn btn-primary">Change Profile Picture</button>
                 </div>
             </div>
         </div>
         
-        <!-- MODAL ULANG TAHUN -->
+        <!-- BIRTHDAY MODAL -->
         <div id="birthday-modal" class="birthday-modal">
             <div class="birthday-modal-content">
                 <span class="close-modal" id="close-birthday-modal">&times;</span>
-                <h3>🎂 Tanggal Ulang Tahun</h3>
+                <h3>🎂 Birthday</h3>
                 <form class="birthday-form" id="birthday-form">
                     <input type="date" id="birthday-input" required>
                     <div class="birthday-form-buttons">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                        <button type="button" class="btn btn-reset" id="cancel-birthday-btn">Batal</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-reset" id="cancel-birthday-btn">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -1604,25 +1604,25 @@
             <section id="dashboard" class="content-section active">
                 <div class="dashboard-grid">
                     <div class="card welcome-card">
-                                <h1 style="text-align: center; font-size: 1.3rem; font-weight: 700; color: var(--text-primary)">Galeri Gambar📸</h1><br>
-                        <!-- BARU: Kontainer untuk Galeri Gambar -->
+                                <h1 style="text-align: center; font-size: 1.3rem; font-weight: 700; color: var(--text-primary)">Image Gallery📸</h1><br>
+                        <!-- NEW: Image Gallery Container -->
                         <div class="image-gallery-container">
                             <div id="image-gallery" class="image-gallery">
-                                <!-- Gambar akan dimuat di sini oleh JavaScript -->
+                                <!-- Images will be loaded here by JavaScript -->
                             </div>
-                            <br><button class="add-image-btn" id="add-image-btn">+ Tambah Gambar</button>
+                            <br><button class="add-image-btn" id="add-image-btn">+ Add Image</button>
                             <input type="file" id="image-input" accept="image/*">
                         </div>
                         
-                        <h2 id="welcome-message">Halo, ! ✨</h2>
-                        <p>Waktunya untuk membuat hari ini lebih bermakna. Yuk, capai targetmu satu per satu!</p>
-                        <p class="motto">"Progres, bukan kesempurnaan, adalah kunci sukses."</p>
+                        <h2 id="welcome-message">Hello, ! ✨</h2>
+                        <p>It's time to make today more meaningful. Come on, achieve your goals one by one!</p>
+                        <p class="motto">"Progress, not perfection, is key to success."</p>
                     </div>
                     <div class="card clock-calendar-card">
                         <div id="live-clock">00:00:00</div>
                         <div id="calendar-container"></div>
                     </div>
-                    <!-- CARD ULANG TAHUN (SUPER AESTHETIC) -->
+                    <!-- BIRTHDAY CARD (SUPER AESTHETIC) -->
                     <div class="card birthday-card" id="birthday-card">
                         <div class="birthday-decoration decoration-1">🌟</div>
                         <div class="birthday-decoration decoration-2">✨</div>
@@ -1630,39 +1630,39 @@
                         <div class="birthday-decoration decoration-4">🎉</div>
                         
                         <div class="birthday-header">
-                            <h3>🎂 Hari Spesialmu</h3>
+                            <h3>🎂 Your Special Day</h3>
                             <div class="cake-emoji">🎂</div>
                         </div>
                         
                         <div class="birthday-content">
                             <div class="birthday-display">
-                                <div class="birthday-display-text" id="birthday-display-text">Tambah tanggal ulang tahun</div>
+                                <div class="birthday-display-text" id="birthday-display-text">Add birthday</div>
                             </div>
-                            <button class="edit-birthday-btn" id="edit-birthday-btn">✨ Atur Tanggal</button>
+                            <button class="edit-birthday-btn" id="edit-birthday-btn">✨ Set Date</button>
                             <div id="birthday-notification" class="birthday-notification" style="display: none;"></div>
                         </div>
                     </div>
                     <div class="card">
                         <div class="summary-cards">
                             <div class="summary-card work">
-                                <h3>💼 Kerja</h3>
-                                <p>Maks. 8 Jam</p>
+                                <h3>💼 Work</h3>
+                                <p>Max. 8 hours</p>
                             </div>
                             <div class="summary-card study">
-                                <h3>📚 Belajar</h3>
-                                <p>Min. 30 Menit</p>
+                                <h3>📚 Study</h3>
+                                <p>Min. 30 Minutes</p>
                             </div>
                             <div class="summary-card read">
-                                <h3>📖 Membaca</h3>
-                                <p>Target Bebas</p>
+                                <h3>📖 Reading</h3>
+                                <p>Target Free</p>
                             </div>
                             <div class="summary-card film">
-                                <h3>🎬 Film</h3>
-                                <p>Target Bebas</p>
+                                <h3>🎬 Movie</h3>
+                                <p>Target Free</p>
                             </div>
                             <div class="summary-card workout">
                                 <h3>💪 Workout</h3>
-                                <p>Target Bebas</p>
+                                <p>Target Free</p>
                             </div>
                         </div>
                     </div>
@@ -1672,115 +1672,115 @@
             <!-- TIME MANAGEMENT SECTION -->
             <section id="time-management" class="content-section">
                 <div class="card">
-                    <h2>⏰ Manajemen Waktu</h2>
+                    <h2>⏰ Time Management</h2>
                     <div class="activity-selector-group">
-                        <button class="activity-btn active" data-activity="work">💼 Kerja</button>
-                        <button class="activity-btn" data-activity="study">📚 Belajar</button>
-                        <button class="activity-btn" data-activity="read">📖 Membaca</button>
-                        <button class="activity-btn" data-activity="film">🎬 Film</button>
+                        <button class="activity-btn active" data-activity="work">💼 Work</button>
+                        <button class="activity-btn" data-activity="study">📚 Study</button>
+                        <button class="activity-btn" data-activity="read">📖 Reading</button>
+                        <button class="activity-btn" data-activity="film">🎬 Movie</button>
                         <button class="activity-btn" data-activity="workout">💪 Workout</button>
                     </div>
                     <div class="timer-display" id="timer-display">00:00:00</div>
                     <div class="timer-controls">
-                        <button class="btn btn-primary" id="start-pause-btn">Mulai</button>
-                        <button class="btn btn-stop" id="stop-timer-btn" disabled>Selesai</button>
-                        <button class="btn btn-reset" id="reset-day-btn">Reset Hari</button>
+                        <button class="btn btn-primary" id="start-pause-btn">Start</button>
+                        <button class="btn btn-stop" id="stop-timer-btn" disabled>Finish</button>
+                        <button class="btn btn-reset" id="reset-day-btn">Reset Day</button>
                     </div>
                 </div>
                 <div class="card">
-                    <h2>Progress Harian</h2>
+                    <h2>Daily Progress</h2>
                     <div class="progress-container">
                         <div class="progress-label">
-                            <span>💼 Waktu Kerja (Maks: 8 Jam)</span>
-                            <span id="work-time-text">0 Jam 0 Menit</span>
+                            <span>💼 Working Hours (Max: 8 Hours)</span>
+                            <span id="work-time-text">0 Hours 0 Minutes</span>
                         </div>
                         <div class="progress-bar"><div class="progress-fill work" id="work-progress"></div></div>
                     </div>
                     <div class="progress-container">
                         <div class="progress-label">
-                            <span>📚 Waktu Belajar (Min: 30 Menit)</span>
-                            <span id="study-time-text">0 Menit</span>
+                            <span>📚 Study Time (Min: 30 Minutes)</span>
+                            <span id="study-time-text">0 Minutes</span>
                         </div>
                         <div class="progress-bar"><div class="progress-fill study" id="study-progress"></div></div>
                     </div>
                     <div class="progress-container">
                         <div class="progress-label">
-                            <span>📖 Waktu Membaca</span>
-                            <span id="read-time-text">0 Menit</span>
+                            <span>📖 Reading Time</span>
+                            <span id="read-time-text">0 Minutes</span>
                         </div>
                         <div class="progress-bar"><div class="progress-fill read" id="read-progress"></div></div>
                     </div>
                     <div class="progress-container">
                         <div class="progress-label">
-                            <span>🎬 Waktu Nonton Film</span>
-                            <span id="film-time-text">0 Menit</span>
+                            <span>🎬 Movie Time</span>
+                            <span id="film-time-text">0 Minutes</span>
                         </div>
                         <div class="progress-bar"><div class="progress-fill film" id="film-progress"></div></div>
                     </div>
                     <div class="progress-container">
                         <div class="progress-label">
-                            <span>💪 Waktu Workout</span>
-                            <span id="workout-time-text">0 Menit</span>
+                            <span>💪 Workout Time</span>
+                            <span id="workout-time-text">0 Minutes</span>
                         </div>
                         <div class="progress-bar"><div class="progress-fill workout" id="workout-progress"></div></div>
                     </div>
                 </div>
                 
-                <!-- RIWAYAT MANAJEMEN WAKTU (AESTHETIC) -->
+                <!-- TIME MANAGEMENT HISTORY (AESTHETIC) -->
                 <div class="history-section">
                     <button class="history-toggle-btn" id="history-toggle-btn">
                         <span>📊</span>
-                        <span>Lihat Riwayat & Statistik</span>
+                        <span>View History & Statistics</span>
                         <span id="history-arrow">▼</span>
                     </button>
                     
                     <div class="history-content" id="history-content">
-                        <!-- TABEL DATA HARI INI -->
+                        <!-- TODAY'S DATA TABLE -->
                         <div class="today-data-card">
-                            <h3>📅 Data Hari Ini</h3>
+                            <h3>📅 Today's Data</h3>
                             <table class="today-table">
                                 <thead>
                                     <tr>
-                                        <th>Aktivitas</th>
-                                        <th>Durasi</th>
+                                        <th>Activity</th>
+                                        <th>Duration</th>
                                         <th>Progress</th>
                                     </tr>
                                 </thead>
                                 <tbody id="today-table-body">
-                                    <!-- Data hari ini akan dimuat di sini -->
+                                    <!-- Today's data will be loaded here -->
                                 </tbody>
                             </table>
                         </div>
                         
-                        <!-- GRAFIK PRODUKTIVITAS -->
+                        <!-- PRODUCTIVITY CHART -->
                         <div class="chart-card">
-                            <h3>📈 Grafik Produktivitas 7 Hari Terakhir</h3>
+                            <h3>📈 7-Day Productivity Chart</h3>
                             <div class="chart-container">
                                 <canvas id="productivity-chart" class="chart-canvas"></canvas>
                             </div>
                             <div class="chart-legend" id="chart-legend">
-                                <!-- Legend akan dimuat di sini -->
+                                <!-- Legend will be loaded here -->
                             </div>
                         </div>
                         
-                        <!-- TABEL RIWAYAT HARIAN -->
+                        <!-- DAILY HISTORY TABLE -->
                         <div class="history-table-card">
-                            <h3>📝 Riwayat Harian</h3>
+                            <h3>📝 Daily History</h3>
                             <div class="history-table-wrapper">
                                 <table class="history-table">
                                     <thead>
                                         <tr>
-                                            <th>Tanggal</th>
-                                            <th>💼 Kerja</th>
-                                            <th>📚 Belajar</th>
-                                            <th>📖 Membaca</th>
-                                            <th>🎬 Film</th>
+                                            <th>Date</th>
+                                            <th>💼 Work</th>
+                                            <th>📚 Study</th>
+                                            <th>📖 Reading</th>
+                                            <th>🎬 Movies</th>
                                             <th>💪 Workout</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody id="history-table-body">
-                                        <!-- Riwayat akan dimuat di sini -->
+                                        <!-- History will be loaded here -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1792,35 +1792,35 @@
             <!-- MONEY MANAGEMENT SECTION -->
             <section id="money-management" class="content-section">
                 <div class="card">
-                    <h2>💰 Tambah Transaksi</h2>
+                    <h2>💰 Add Transaction</h2>
                     <form class="money-form" id="money-form">
-                        <input type="number" id="amount" placeholder="Jumlah (Rp)" required>
-                        <input type="text" id="description" placeholder="Keterangan (e.g., Gaji, Makan)" required>
-                        <button type="submit" class="btn btn-income" id="add-income">+ Pemasukan</button>
-                        <button type="button" class="btn btn-expense" id="add-expense">- Pengeluaran</button>
+                        <input type="number" id="amount" placeholder="Amount (Rp)" required>
+                        <input type="text" id="description" placeholder="Description (e.g., Salary, Food)" required>
+                        <button type="submit" class="btn btn-income" id="add-income">+ Income</button>
+                        <button type="button" class="btn btn-expense" id="add-expense">- Expense</button>
                     </form>
                 </div>
                 <div class="card">
-                    <h2>Ringkasan Keuangan</h2>
+                    <h2>Financial Summary</h2>
                     <div class="summary-cards-finance">
                         <div class="summary-card-finance income">
-                            <h3>Total Pemasukan</h3>
+                            <h3>Total Income</h3>
                             <p id="total-income">Rp 0</p>
                         </div>
                         <div class="summary-card-finance expense">
-                            <h3>Total Pengeluaran</h3>
+                            <h3>Total Expense</h3>
                             <p id="total-expense">Rp 0</p>
                         </div>
                         <div class="summary-card-finance balance">
-                            <h3>Sisa Saldo</h3>
+                            <h3>Remaining Balance</h3>
                             <p id="total-balance">Rp 0</p>
                         </div>
                     </div>
                 </div>
                 <div class="card">
-                    <h2>Riwayat Transaksi</h2>
+                    <h2>Transaction History</h2>
                     <ul class="transaction-list" id="transaction-list">
-                        <li class="transaction-item">Belum ada transaksi.</li>
+                        <li class="transaction-item">No transactions yet.</li>
                     </ul>
                 </div>
             </section>
@@ -1852,7 +1852,7 @@
 
             themeToggle.addEventListener('change', switchTheme);
 
-            // --- ELEMEN DOM AUTH ---
+            // --- AUTH DOM ELEMENTS ---
             const authContainer = document.getElementById('auth-container');
             const mainApp = document.getElementById('main-app');
             const showLoginBtn = document.getElementById('show-login');
@@ -1865,7 +1865,7 @@
             const registerError = document.getElementById('register-error');
             const passwordToggles = document.querySelectorAll('.password-toggle');
 
-            // --- ELEMEN DOM MAIN APP ---
+            // --- MAIN APP DOM ELEMENTS ---
             const welcomeMessage = document.getElementById('welcome-message');
             const logoutBtn = document.querySelector('.btn-logout');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -1887,7 +1887,7 @@
             const totalBalanceEl = document.getElementById('total-balance');
             const transactionListEl = document.getElementById('transaction-list');
 
-            // --- ELEMEN DOM UNTUK PROFIL ---
+            // --- PROFILE DOM ELEMENTS ---
             const profilePicture = document.getElementById('profile-picture');
             const profileInput = document.createElement('input');
             profileInput.type = 'file';
@@ -1895,13 +1895,13 @@
             profileInput.style.display = 'none';
             document.body.appendChild(profileInput);
             
-            // --- ELEMEN DOM UNTUK MODAL PROFIL ---
+            // --- PROFILE MODAL DOM ELEMENTS ---
             const profileModal = document.getElementById('profile-modal');
             const profileModalImage = document.getElementById('profile-modal-image');
             const changeProfileBtn = document.getElementById('change-profile-btn');
             const closeModal = document.querySelector('.close-modal');
             
-            // --- ELEMEN DOM UNTUK ULANG TAHUN ---
+            // --- BIRTHDAY DOM ELEMENTS ---
             const birthdayDisplayText = document.getElementById('birthday-display-text');
             const editBirthdayBtn = document.getElementById('edit-birthday-btn');
             const birthdayModal = document.getElementById('birthday-modal');
@@ -1912,7 +1912,7 @@
             const birthdayNotification = document.getElementById('birthday-notification');
             const birthdayCard = document.getElementById('birthday-card');
             
-            // --- ELEMEN DOM UNTUK RIWAYAT WAKTU ---
+            // --- TIME HISTORY DOM ELEMENTS ---
             const historyToggleBtn = document.getElementById('history-toggle-btn');
             const historyContent = document.getElementById('history-content');
             const historyArrow = document.getElementById('history-arrow');
@@ -1929,18 +1929,18 @@
             let totalSeconds = {};
             let lastResetDate = null;
             let transactions = [];
-            // Array untuk menyimpan dataURL gambar
+            // Array to store image dataURL
             let dashboardImages = [];
-            // State untuk foto profil
+            // State for profile picture
             let profileImageUrl = 'https://i.imgur.com/gL1hLhA.png'; // Default placeholder
-            // State untuk tanggal ulang tahun
+            // State for birthday date
             let birthdayDate = null;
-            // State untuk alarm
+            // State for alarm
             let birthdayAlarmShown = false;
-            // State untuk riwayat waktu harian
+            // State for daily time history
             let dailyHistory = [];
 
-            // --- PENTING: GANTI DENGAN DATA FIREBASE KAMU ---
+            // --- IMPORTANT: REPLACE WITH YOUR FIREBASE DATA ---
             const firebaseConfig = {
               apiKey: "AIzaSyCVGICoAkqzVxto9n9KLzIzLQk51M3WigM",
               authDomain: "akuproduktifapp-add18.firebaseapp.com",
@@ -1956,16 +1956,16 @@
             firebase.initializeApp(firebaseConfig);
             firebaseDB = firebase.database();
 
-            // --- FUNGSI AUTH UI ---
+            // --- AUTH UI FUNCTIONS ---
             function showAuthScreen() {
-                console.log('Menampilkan layar auth...');
+                console.log('Showing auth screen...');
                 authContainer.classList.remove('hidden');
                 authContainer.style.display = 'flex';
                 mainApp.style.display = 'none';
             }
 
             function showMainApp() {
-                console.log('Menampilkan aplikasi utama...');
+                console.log('Showing main app...');
                 authContainer.classList.add('hidden');
                 mainApp.style.display = 'block';
             }
@@ -1986,7 +1986,7 @@
                 registerError.style.display = 'none';
             }
 
-            // --- FUNGSI AUTH LOGIC ---
+            // --- AUTH LOGIC FUNCTIONS ---
             function handleLogin(username, password) {
                 firebaseDB.ref('users/' + username).once('value')
                     .then((snapshot) => {
@@ -1994,7 +1994,7 @@
                         if (userData && userData.password === password) {
                             currentUser = username;
                             localStorage.setItem('loggedInUser', currentUser);
-                            console.log('Login berhasil untuk:', username);
+                            console.log('Login successful for:', username);
                             showMainApp();
                             initializeUserData();
                         } else {
@@ -2009,7 +2009,7 @@
 
             function handleRegister(username, password, confirmPassword) {
                 if (password !== confirmPassword) {
-                    registerError.textContent = 'Kata sandi tidak cocok.';
+                    registerError.textContent = 'Passwords do not match.';
                     registerError.style.display = 'block';
                     return;
                 }
@@ -2017,7 +2017,7 @@
                 firebaseDB.ref('users/' + username).once('value')
                     .then((snapshot) => {
                         if (snapshot.exists()) {
-                            registerError.textContent = 'Nama pengguna sudah ada.';
+                            registerError.textContent = 'Username already exists.';
                             registerError.style.display = 'block';
                         } else {
                             firebaseDB.ref('users/' + username).set({
@@ -2029,7 +2029,7 @@
                                 registerError.style.display = 'none';
                             }).catch((error) => {
                                 console.error("Registration failed:", error);
-                                registerError.textContent = 'Terjadi kesalahan, coba lagi.';
+                                registerError.textContent = 'An error occurred, please try again.';
                                 registerError.style.display = 'block';
                             });
                         }
@@ -2044,7 +2044,7 @@
                 registerForm.reset();
             }
 
-            // --- EVENT LISTENERS AUTH ---
+            // --- AUTH EVENT LISTENERS ---
             showLoginBtn.addEventListener('click', () => toggleAuthScreen('login'));
             showRegisterBtn.addEventListener('click', () => toggleAuthScreen('register'));
 
@@ -2079,10 +2079,10 @@
 
             logoutBtn.addEventListener('click', logout);
 
-            // --- FUNGSI MAIN APP ---
+            // --- MAIN APP FUNCTIONS ---
             function initializeUserData() {
-                console.log('Menginisialisasi data pengguna...');
-                welcomeMessage.textContent = `Halo, ${currentUser}! ✨`;
+                console.log('Initializing user data...');
+                welcomeMessage.textContent = `Hello, ${currentUser}! ✨`;
                 const userRef = firebaseDB.ref('userData/' + currentUser);
                 
                 userRef.on('value', (snapshot) => {
@@ -2092,16 +2092,16 @@
                     });
                     lastResetDate = data.lastResetDate;
                     transactions = data.transactions || [];
-                    // Ambil data gambar dari Firebase
+                    // Get image data from Firebase
                     dashboardImages = data.dashboardImages || [];
-                    // Ambil data foto profil dari Firebase
+                    // Get profile picture data from Firebase
                     profileImageUrl = data.profileImageUrl || 'https://i.imgur.com/gL1hLhA.png'; // Default placeholder
-                    // Ambil data tanggal ulang tahun dari Firebase
+                    // Get birthday date from Firebase
                     birthdayDate = data.birthdayDate || null;
-                    // Ambil status alarm
+                    // Get alarm status
                     const today = new Date().toDateString();
                     birthdayAlarmShown = data.birthdayAlarmShown === today;
-                    // Ambil riwayat waktu harian
+                    // Get daily time history
                     dailyHistory = data.dailyHistory || [];
 
                     checkAndResetDaily();
@@ -2109,27 +2109,27 @@
                     updateProgressBar();
                     updateMoneySummary();
                     displayTransactions();
-                    // Render galeri gambar
+                    // Render image gallery
                     renderGallery();
-                    // Render foto profil
+                    // Render profile picture
                     renderProfilePicture();
-                    // Render tanggal ulang tahun
+                    // Render birthday date
                     renderBirthday();
-                    // Periksa dan tampilkan notifikasi ulang tahun
+                    // Check and show birthday notification
                     checkBirthdayNotification();
-                    // Tambahkan efek sparkle
+                    // Add sparkle effects
                     addSparkles();
-                    // Render data riwayat
+                    // Render time history data
                     renderTimeHistory();
                 });
             }
             
-            // --- FUNGSI UNTUK GALERI GAMBAR ---
+            // --- IMAGE GALLERY FUNCTIONS ---
             function renderGallery() {
                 const imageGallery = document.getElementById('image-gallery');
-                imageGallery.innerHTML = ''; // Kosongkan dulu
+                imageGallery.innerHTML = ''; // Empty first
                 if (dashboardImages.length === 0) {
-                    imageGallery.innerHTML = '<p style="text-align:center; color: var(--text-muted);">Belum ada gambar. Klik "Tambah Gambar" untuk memulai.</p>';
+                    imageGallery.innerHTML = '<p style="text-align:center; color: var(--text-muted);">No images yet. Click "Add Image" to start.</p>';
                     return;
                 }
                 dashboardImages.forEach(image => {
@@ -2158,7 +2158,7 @@
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         const newImage = {
-                            id: Date.now(), // ID unik sederhana
+                            id: Date.now(), // Simple unique ID
                             dataURL: event.target.result
                         };
                         dashboardImages.push(newImage);
@@ -2167,19 +2167,19 @@
                     };
                     reader.readAsDataURL(file);
                 } else if (dashboardImages.length >= 3) {
-                    alert('Maksimal 3 gambar yang bisa ditambahkan.');
+                    alert('Maximum 3 images can be added.');
                 }
             }
 
             function deleteImage(id) {
-                if (confirm('Apakah kamu yakin ingin menghapus gambar ini?')) {
+                if (confirm('Are you sure you want to delete this image?')) {
                     dashboardImages = dashboardImages.filter(img => img.id !== id);
                     saveUserData();
                     renderGallery();
                 }
             }
             
-            // --- FUNGSI UNTUK FOTO PROFIL ---
+            // --- PROFILE PICTURE FUNCTIONS ---
             function renderProfilePicture() {
                 profilePicture.src = profileImageUrl;
             }
@@ -2211,15 +2211,15 @@
                 }
             }
             
-            // --- FUNGSI UNTUK TANGGAL ULANG TAHUN ---
+            // --- BIRTHDAY DATE FUNCTIONS ---
             function renderBirthday() {
                 if (birthdayDate) {
                     const date = new Date(birthdayDate);
                     const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                    const formattedDate = date.toLocaleDateString('id-ID', options);
+                    const formattedDate = date.toLocaleDateString('en-US', options);
                     birthdayDisplayText.textContent = formattedDate;
                 } else {
-                    birthdayDisplayText.textContent = 'Tambah tanggal ulang tahun';
+                    birthdayDisplayText.textContent = 'Add birthday date';
                 }
             }
             
@@ -2252,45 +2252,45 @@
                 const today = new Date();
                 const birthday = new Date(birthdayDate);
                 
-                // Set tahun ulang tahun ke tahun ini
+                // Set birthday year to this year
                 birthday.setFullYear(today.getFullYear());
                 
-                // Hitung selisih hari
+                // Calculate days difference
                 const diffTime = birthday - today;
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                 
-                // Pesan-pesan yang menyentuh hati
+                // Touching birthday messages
                 const birthdayMessages = [
-                    "Hari ini adalah hari dimana bunga mekar indah, sama seperti senyummu yang selalu menerangi dunia. Selamat ulang tahun! 🌸",
-                    "Setiap tahun adalah babak baru dalam cerita hidupmu. Semoga babak ini penuh dengan kebahagiaan, cinta, dan impian yang terwujud. 🎂",
-                    "Kamu seperti bintang yang bersinar paling terang di langit kehidupan banyak orang. Teruslah bersinar dan membuat dunia lebih indah. ✨",
-                    "Hari ini adalah perayaan kehadiranmu yang berharga. Terima kasih telah menjadi inspirasi dan kebahagiaan bagi banyak orang. 🎈",
-                    "Dalam perjalanan hidupmu, kamu telah menulis banyak kisah indah. Semoga tahun ini menjadi babak terbaik dalam buku ceritamu. 📖",
-                    "Kamu adalah keajaiban yang terus berkembang. Setiap hari bersamamu adalah hadiah yang tak ternilai. Selamat ulang tahun! 🎁",
-                    "Seperti angin sejuk di hari panas, kehadiranmu selalu membawa ketenangan dan kebahagiaan. Semoga harimu seindah senyummu. 🌺",
-                    "Hari ini dunia menjadi lebih cerah karena kamu ada di dalamnya. Teruslah menjadi cahaya bagi orang-orang di sekitarmu. 🌟"
+                    "Today is the day when flowers bloom beautifully, just like your smile that always colors the world. Happy birthday! 🌸",
+                    "Every year is a new chapter in your life story. May this chapter be filled with happiness, love, and dreams come true. 🎂",
+                    "You are like a star that shines the brightest in the sky of many people's lives. Keep shining and making the world more beautiful. ✨",
+                    "Today is a celebration of your precious presence. Thank you for being an inspiration and happiness to many people. 🎈",
+                    "In your life's journey, you've written many beautiful stories. May this year be the best chapter in your storybook. 📖",
+                    "You are a miracle that continues to grow. Every day with you is an invaluable gift. Happy birthday! 🎁",
+                    "Like a cool breeze on a hot day, your presence always brings calm and happiness. May your day be as beautiful as your smile. 🌺",
+                    "Today the world becomes brighter because you are in it. Continue to be a light for those around you. 🌟"
                 ];
                 
                 const countdownMessages = [
-                    "Hari spesialmu semakin dekat! Siapkan hati untuk menerima banyak kejutan dan kebahagiaan! 🎉",
-                    "Hitung mundur menuju hari ulang tahunmu! Semoga setiap detiknya diisi dengan kegembiraan dan harapan baru. ⏰",
-                    "Tak lama lagi hari dimana kamu menjadi bintang utama! Bersiaplah untuk hari yang penuh keajaiban! 🌟",
-                    "Menuju hari ulang tahunmu! Semoga persiapanmu membawa kebahagiaan yang melebihi ekspektasi. 🎂",
-                    "Countdown ke hari spesialmu! Setiap hari yang dilewati membawamu lebih dekat pada kebahagiaan. 🎈"
+                    "Your special day is getting closer! Prepare your heart to receive lots of surprises and happiness! 🎉",
+                    "Counting down to your birthday! May every second be filled with joy and new hopes. ⏰",
+                    "Not long until the day you become the main star! Get ready for a day full of magic! 🌟",
+                    "Counting down to your birthday! May your preparations bring happiness that exceeds expectations. 🎂",
+                    "Countdown to your special day! Every day that passes brings you closer to happiness. 🎈"
                 ];
                 
-                // Tampilkan notifikasi
+                // Show notification
                 if (diffDays === 0) {
                     const randomMessage = birthdayMessages[Math.floor(Math.random() * birthdayMessages.length)];
                     birthdayNotification.innerHTML = `
-                        <div class="notification-title">🎉 Selamat Ulang Tahun! 🎉</div>
+                        <div class="notification-title">🎉 Happy Birthday! 🎉</div>
                         <div class="notification-message">${randomMessage}</div>
                     `;
                     birthdayNotification.style.display = 'block';
                 } else if (diffDays > 0 && diffDays <= 7) {
                     const randomCountdown = countdownMessages[Math.floor(Math.random() * countdownMessages.length)];
                     birthdayNotification.innerHTML = `
-                        <div class="notification-title">🎂 ${diffDays} Hari Lagi! 🎂</div>
+                        <div class="notification-title">🎂 ${diffDays} Days To Go! 🎂</div>
                         <div class="notification-message">${randomCountdown}</div>
                     `;
                     birthdayNotification.style.display = 'block';
@@ -2310,7 +2310,7 @@
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                 
                 if (diffDays === 0) {
-                    // Tambahkan efek sparkle
+                    // Add sparkle effects
                     for (let i = 0; i < 15; i++) {
                         setTimeout(() => {
                             const sparkle = document.createElement('div');
@@ -2326,12 +2326,12 @@
                 }
             }
             
-            // --- FUNGSI UNTUK TABEL & GRAFIK ---
+            // --- TABLE & CHART FUNCTIONS ---
             function formatDuration(seconds) {
                 const hours = Math.floor(seconds / 3600);
                 const minutes = Math.floor((seconds % 3600) / 60);
                 if (hours > 0) {
-                    return `${hours}j ${minutes}m`;
+                    return `${hours}h ${minutes}m`;
                 } else {
                     return `${minutes}m`;
                 }
@@ -2341,7 +2341,7 @@
                 const hours = Math.floor(seconds / 3600);
                 const minutes = Math.floor((seconds % 3600) / 60);
                 if (hours > 0) {
-                    return `${hours}j ${minutes}m`;
+                    return `${hours}h ${minutes}m`;
                 } else {
                     return `${minutes}m`;
                 }
@@ -2356,7 +2356,7 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 };
-                return date.toLocaleDateString('id-ID', options);
+                return date.toLocaleDateString('en-US', options);
             }
             
             function getActivityIcon(activity) {
@@ -2372,13 +2372,13 @@
             
             function getActivityName(activity) {
                 const names = {
-                    work: 'Kerja',
-                    study: 'Belajar',
-                    read: 'Membaca',
-                    film: 'Film',
+                    work: 'Work',
+                    study: 'Study',
+                    read: 'Reading',
+                    film: 'Movie',
                     workout: 'Workout'
                 };
-                return names[activity] || 'Aktivitas';
+                return names[activity] || 'Activity';
             }
             
             function getActivityColor(activity) {
@@ -2400,7 +2400,7 @@
                     const seconds = totalSeconds[activity] || 0;
                     totalTodaySeconds += seconds;
                     
-                    const maxSeconds = activity === 'work' ? 28800 : (activity === 'workout' ? 10800 : 7200); // 8 jam untuk kerja, 3 jam untuk workout, 2 jam untuk lainnya
+                    const maxSeconds = activity === 'work' ? 28800 : (activity === 'workout' ? 10800 : 7200); // 8 hours for work, 3 hours for workout, 2 hours for others
                     const progress = Math.min((seconds / maxSeconds) * 100, 100);
                     
                     html += `
@@ -2421,7 +2421,7 @@
                     `;
                 });
                 
-                // Tambahkan baris total
+                // Add total row
                 html += `
                     <tr>
                         <td><strong>Total</strong></td>
@@ -2436,7 +2436,7 @@
             function renderProductivityChart() {
                 const ctx = productivityChart.getContext('2d');
                 
-                // Ambil 7 hari terakhir
+                // Get last 7 days
                 const last7Days = [];
                 const today = new Date();
                 
@@ -2446,19 +2446,19 @@
                     last7Days.push(date.toDateString());
                 }
                 
-                // Siapkan data untuk chart
+                // Prepare data for chart
                 const chartData = {
                     labels: [],
                     datasets: []
                 };
                 
-                // Generate labels tanggal
+                // Generate date labels
                 last7Days.forEach(dateStr => {
                     const date = new Date(dateStr);
-                    chartData.labels.push(date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
+                    chartData.labels.push(date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }));
                 });
                 
-                // Generate datasets untuk setiap aktivitas
+                // Generate datasets for each activity
                 activities.forEach(activity => {
                     const data = [];
                     const color = getActivityColor(activity);
@@ -2475,8 +2475,8 @@
                         backgroundColor: color,
                         borderColor: color,
                         borderWidth: 2,
-                        borderRadius:5,
-                        barThickness:20
+                        borderRadius: 5,
+                        barThickness: 20
                     });
                 });
                 
@@ -2533,7 +2533,7 @@
                         <tr>
                             <td colspan="7" class="empty-history">
                                 <div class="empty-history-icon">📝</div>
-                                <p>Belum ada riwayat harian. Data akan muncul setelah hari selesai.</p>
+                                <p>No daily history yet. Data will appear after the day is complete.</p>
                             </td>
                         </tr>
                     `;
@@ -2572,11 +2572,11 @@
             function archiveDayData() {
                 const today = new Date().toDateString();
                 
-                // Cek apakah data hari ini sudah diarsipkan
+                // Check if today's data has already been archived
                 const alreadyArchived = dailyHistory.some(d => d.date === today);
                 if (alreadyArchived) return;
                 
-                // Arsipkan data hari ini
+                // Archive today's data
                 const dayData = {
                     date: today,
                     activities: { ...totalSeconds }
@@ -2584,7 +2584,7 @@
                 
                 dailyHistory.unshift(dayData);
                 
-                // Batasi hanya 30 hari terakhir
+                // Limit to only the last 30 days
                 if (dailyHistory.length > 30) {
                     dailyHistory = dailyHistory.slice(0, 30);
                 }
@@ -2592,7 +2592,7 @@
                 saveUserData();
             }
 
-            // --- FUNGSI DASHBOARD ---
+            // --- DASHBOARD FUNCTIONS ---
             function updateClock() {
                 const now = new Date();
                 const h = String(now.getHours()).padStart(2, '0');
@@ -2610,15 +2610,15 @@
                 const today = now.getDate();
                 const firstDay = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
-                const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 let html = `<table><caption>${monthNames[month]} ${year}</caption><thead><tr>`;
-                const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
                 dayNames.forEach(day => html += `<th>${day}</th>`);
                 html += `</tr></thead><tbody><tr>`;
                 let date = 1;
                 for (let i = 0; i < firstDay; i++) html += `<td></td>`;
                 for (let i = firstDay; i < 7; i++) {
-                    // Tandai hari ulang tahun di kalender
+                    // Mark birthday in calendar
                     let className = '';
                     if (date === today) className = 'today';
                     else if (birthdayDate) {
@@ -2636,7 +2636,7 @@
                     for (let i = 0; i < 7; i++) {
                         if (date > daysInMonth) { html += `<td></td>`; }
                         else { 
-                            // Tandai hari ulang tahun di kalender
+                            // Mark birthday in calendar
                             let className = '';
                             if (date === today) className = 'today';
                             else if (birthdayDate) {
@@ -2656,7 +2656,7 @@
             }
             generateCalendar();
 
-            // --- FUNGSI NAVIGASI ---
+            // --- NAVIGATION FUNCTIONS ---
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     const targetId = link.dataset.target;
@@ -2667,7 +2667,7 @@
                 });
             });
 
-            // --- FUNGSI MANAJEMEN WAKTU ---
+            // --- TIME MANAGEMENT FUNCTIONS ---
             let timerInterval = null;
             let seconds = 0;
             let isTimerRunning = false;
@@ -2677,7 +2677,7 @@
             function checkAndResetDaily() {
                 const today = new Date().toDateString();
                 if (lastResetDate !== today) {
-                    // Arsipkan data hari sebelumnya
+                    // Archive previous day's data
                     if (lastResetDate) {
                         archiveDayData();
                     }
@@ -2686,7 +2686,7 @@
                         totalSeconds[act] = 0;
                     });
                     lastResetDate = today;
-                    // Reset alarm status setiap hari baru
+                    // Reset alarm status every new day
                     birthdayAlarmShown = false;
                     saveUserData();
                 }
@@ -2697,15 +2697,15 @@
                     totalSeconds: totalSeconds,
                     lastResetDate: lastResetDate,
                     transactions: transactions,
-                    // Simpan array gambar ke Firebase
+                    // Save image array to Firebase
                     dashboardImages: dashboardImages,
-                    // Simpan URL foto profil ke Firebase
+                    // Save profile picture URL to Firebase
                     profileImageUrl: profileImageUrl,
-                    // Simpan tanggal ulang tahun ke Firebase
+                    // Save birthday date to Firebase
                     birthdayDate: birthdayDate,
-                    // Simpan status alarm
+                    // Save alarm status
                     birthdayAlarmShown: birthdayAlarmShown,
-                    // Simpan riwayat harian
+                    // Save daily history
                     dailyHistory: dailyHistory
                 };
                 firebaseDB.ref('userData/' + currentUser).set(dataToSave);
@@ -2731,16 +2731,16 @@
             function startTimer() {
                 isTimerRunning = true; isPaused = false;
                 activityBtns.forEach(b => b.disabled = true);
-                startPauseBtn.textContent = 'Jeda'; stopTimerBtn.disabled = false;
+                startPauseBtn.textContent = 'Pause'; stopTimerBtn.disabled = false;
                 timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
             }
             function pauseTimer() {
                 isTimerRunning = false; isPaused = true;
-                clearInterval(timerInterval); startPauseBtn.textContent = 'Lanjutkan';
+                clearInterval(timerInterval); startPauseBtn.textContent = 'Resume';
             }
             function resumeTimer() {
                 isTimerRunning = true; isPaused = false;
-                startPauseBtn.textContent = 'Jeda';
+                startPauseBtn.textContent = 'Pause';
                 timerInterval = setInterval(() => { seconds++; updateTimerDisplay(); }, 1000);
             }
             function stopTimer() {
@@ -2751,10 +2751,10 @@
                 saveUserData();
                 seconds = 0; isTimerRunning = false; isPaused = false;
                 activityBtns.forEach(b => b.disabled = false);
-                startPauseBtn.textContent = 'Mulai'; stopTimerBtn.disabled = true;
+                startPauseBtn.textContent = 'Start'; stopTimerBtn.disabled = true;
                 updateTimerDisplay(); updateTimeDisplay(); updateProgressBar();
                 
-                // Update tabel dan grafik jika sedang ditampilkan
+                // Update table and chart if currently displayed
                 if (historyContent.classList.contains('show')) {
                     renderTimeHistory();
                 }
@@ -2771,8 +2771,8 @@
                     const hrs = Math.floor(totalSecs / 3600);
                     const mins = Math.floor((totalSecs % 3600) / 60);
                     const textEl = document.getElementById(timeTexts[act]);
-                    if (act === 'work') textEl.textContent = `${hrs} Jam ${mins} Menit`;
-                    else textEl.textContent = `${hrs * 60 + mins} Menit`;
+                    if (act === 'work') textEl.textContent = `${hrs} Hours ${mins} Minutes`;
+                    else textEl.textContent = `${hrs * 60 + mins} Minutes`;
                 });
             }
             function updateProgressBar() {
@@ -2793,7 +2793,7 @@
                 document.getElementById(progressBars['workout']).textContent = `${workoutPerc.toFixed(1)}%`;
             }
             function resetDay() {
-                if (confirm("Apakah kamu yakin ingin mereset progress hari ini?")) {
+                if (confirm("Are you sure you want to reset today's progress?")) {
                     activities.forEach(act => {
                         totalSeconds[act] = 0;
                     });
@@ -2801,7 +2801,7 @@
                     saveUserData();
                     updateTimeDisplay(); updateProgressBar();
                     
-                    // Update tabel jika sedang ditampilkan
+                    // Update table if currently displayed
                     if (historyContent.classList.contains('show')) {
                         renderTodayTable();
                     }
@@ -2811,10 +2811,10 @@
             stopTimerBtn.addEventListener('click', stopTimer);
             resetDayBtn.addEventListener('click', resetDay);
 
-            // --- FUNGSI MANAJEMEN UANG ---
+            // --- MONEY MANAGEMENT FUNCTIONS ---
             function formatRupiah(amount) { return 'Rp ' + amount.toLocaleString('id-ID'); }
             
-            // Fungsi untuk mendapatkan tanggal saat ini dalam format Indonesia
+            // Function to get current date in Indonesian format
             function getCurrentDate() {
                 const now = new Date();
                 const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -2825,11 +2825,11 @@
                 const amount = parseFloat(amountInput.value);
                 const description = descriptionInput.value;
                 if (!amount || !description) { 
-                    alert('Jumlah dan keterangan harus diisi!'); 
+                    alert('Amount and description must be filled!'); 
                     return; 
                 }
                 
-                // Tambahkan tanggal saat ini ke transaksi
+                // Add current date to transaction
                 const currentDate = getCurrentDate();
                 
                 const transaction = { 
@@ -2837,7 +2837,7 @@
                     type, 
                     amount, 
                     description,
-                    date: currentDate // Tambahkan tanggal saat ini
+                    date: currentDate // Add current date
                 };
                 
                 transactions.unshift(transaction);
@@ -2858,7 +2858,7 @@
             
             function displayTransactions() {
                 if (transactions.length === 0) { 
-                    transactionListEl.innerHTML = '<li class="transaction-item">Belum ada transaksi.</li>'; 
+                    transactionListEl.innerHTML = '<li class="transaction-item">No transactions yet.</li>'; 
                     return; 
                 }
                 
@@ -2872,9 +2872,9 @@
                     li.innerHTML = `
                         <div class="transaction-details">
                             <div class="desc">${t.description}</div>
-                            <div class="cat">${t.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}</div>
+                            <div class="cat">${t.type === 'income' ? 'Income' : 'Expense'}</div>
                         </div>
-                        <div class="transaction-date">${t.date || 'Tanggal tidak tersedia'}</div>
+                        <div class="transaction-date">${t.date || 'Date not available'}</div>
                         <div class="transaction-amount ${amountClass}">${amountSign} ${formatRupiah(t.amount)}</div>
                     `;
                     
@@ -2891,33 +2891,33 @@
                 addTransaction('expense'); 
             });
 
-            // --- EVENT LISTENER UNTUK PROFIL ---
+            // --- PROFILE EVENT LISTENERS ---
             profilePicture.addEventListener('click', openProfileModal);
             changeProfileBtn.addEventListener('click', changeProfilePicture);
             closeModal.addEventListener('click', closeProfileModal);
             profileInput.addEventListener('change', handleProfilePictureChange);
             
-            // Menutup modal jika pengguna mengklik di luar konten modal
+            // Close modal if user clicks outside modal content
             window.addEventListener('click', (event) => {
                 if (event.target === profileModal) {
                     closeProfileModal();
                 }
             });
 
-            // --- EVENT LISTENER UNTUK GAMBAR DASHBOARD ---
+            // --- IMAGE GALLERY EVENT LISTENERS ---
             document.getElementById('add-image-btn').addEventListener('click', () => {
                 document.getElementById('image-input').click();
             });
             
             document.getElementById('image-input').addEventListener('change', addImage);
             
-            // --- EVENT LISTENER UNTUK TANGGAL ULANG TAHUN ---
+            // --- BIRTHDAY EVENT LISTENERS ---
             editBirthdayBtn.addEventListener('click', openBirthdayModal);
             closeBirthdayModal.addEventListener('click', closeBirthdayModalFunc);
             cancelBirthdayBtn.addEventListener('click', closeBirthdayModalFunc);
             birthdayForm.addEventListener('submit', saveBirthday);
             
-            // --- EVENT LISTENER UNTUK RIWAYAT WAKTU ---
+            // --- TIME HISTORY EVENT LISTENERS ---
             historyToggleBtn.addEventListener('click', () => {
                 const isHidden = !historyContent.classList.contains('show');
                 if (isHidden) {
@@ -2930,24 +2930,24 @@
                 }
             });
             
-            // Menutup modal jika pengguna mengklik di luar konten modal
+            // Close modal if user clicks outside modal content
             window.addEventListener('click', (event) => {
                 if (event.target === birthdayModal) {
                     closeBirthdayModalFunc();
                 }
             });
 
-            // --- INISIALISASI APLIKASI ---
+            // --- INITIALIZATION ---
             const loggedInUser = localStorage.getItem('loggedInUser');
-            console.log('Pengguna yang tersimpan di localStorage:', loggedInUser);
+            console.log('User stored in localStorage:', loggedInUser);
             
             if (loggedInUser) {
                 currentUser = loggedInUser;
-                console.log('Pengguna sudah login, menampilkan aplikasi utama...');
+                console.log('User already logged in, showing main app...');
                 showMainApp();
                 initializeUserData();
             } else {
-                console.log('Pengguna belum login, menampilkan layar auth...');
+                console.log('User not logged in, showing auth screen...');
                 showAuthScreen();
             }
         });
